@@ -3,9 +3,10 @@ import math
 
 def f(
     n_a, 
-    n_b
+    n_b, 
+    n_c
 ): 
-    return f_n_gget_euclidean_algo(n_a, n_b)
+    return f_solve_diophantic_equation(n_a, n_b, n_c)
 
 n_index__a = 0
 n_index__b = 1
@@ -68,7 +69,7 @@ def f_s_table(a_a_n__table):
 
     return s
 n_ti_nspire_max_chars_per_line = 36
-def f_n_gget_euclidean_algo(
+def f_solve_diophantic_equation(
     n_a, 
     n_b, 
     n_3
@@ -156,11 +157,12 @@ def f_n_gget_euclidean_algo(
     print(s_table)
 
     print(str())
+    
 if len(sys.argv) > 2:
     n_1 = sys.argv[1]
     n_2 = sys.argv[2]
     n_3 = sys.argv[3]
-    f_n_gget_euclidean_algo(int(n_1), int(n_2), int(n_3))
+    f_solve_diophantic_equation(int(n_1), int(n_2), int(n_3))
 
 print("usage:")
 print("example euqation:")
