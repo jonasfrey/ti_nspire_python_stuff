@@ -69,6 +69,9 @@ def f_s_table(a_a_n__table):
 
     return s
 n_ti_nspire_max_chars_per_line = 36
+
+
+
 def f_solve_diophantic_equation(
     n_a, 
     n_b, 
