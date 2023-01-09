@@ -158,6 +158,44 @@ def f_a__solve_diophantic_equation(
     print(str())
     return a_a_n__table[0]
 # -- end diophantic equation 
+
+def f_n_en_or_de_crypted(
+    n_msg,
+    n_potenz, 
+    n_mod
+):
+    return (n_msg**n_potenz) % n_mod
+
+def f_s__from_a_n(a_n):
+    s = ''.join([chr(n) for n in a_n])
+    return s
+
+def f_a_n_encrypted__from_ascistring(
+    n_e, 
+    n_n,
+    s_msg_ascii
+):
+    a_n_char = [ord(s) for s in s_msg_ascii]
+
+    a_n_encrypted = [f_n_en_or_de_crypted(n, n_e, n_n) for n in a_n_char]
+
+    print("encrypted string is")
+    print(f_s__from_a_n(a_n_encrypted))
+
+    return a_n_encrypted
+
+def f_s_decrypted__from_a_n(
+    n_d, 
+    n_n,
+    a_n_num_encrypted
+):
+    a_n_num_decrypted = [f_n_en_or_de_crypted(n, n_d, n_n) for n in a_n_num_encrypted]
+
+    print("decrypted string is")
+    s = f_s__from_a_n(a_n_num_decrypted)
+    print(s)
+    return s 
+
 def f_n__calculate_public_key_e(
     n_d, 
     n_prime__p, 
@@ -182,6 +220,17 @@ def f_n__calculate_public_key_e(
 
     print("e = "+str(n_y)+" + "+str(n_phi_of_n))
     n_e = n_y + n_phi_of_n
+    print("e = "+str(n_e))
+    n_factor = 1
+    while(n_e < 0):
+        # kleinste positivie ladung noch nicht erreicht 
+        print("e = "+str(n_y)+" + "+str(n_factor)+"*"+str(n_phi_of_n))
+        n_e = n_y + n_factor * n_phi_of_n
+        n_factor+=1
+    print("kleinste positive ladung")
+    print("e = "+str(n_y)+" + "+str(n_factor)+"*"+str(n_phi_of_n))
+    n_e = n_y + n_phi_of_n
+
     print("e = "+str(n_e))
     return n_e
 
@@ -294,7 +343,20 @@ if len(sys.argv) > 2:
     f()
 
 # f_n__calculate_public_key_e(35, 19, 23)
-f()
+# f()
+n_e__alice = 215 
+n_d__alice = 35
+n_n__alice = 437
+
+n_e__bob = 15
+n_d__bob = 47
+n_n__bob = 391
+
+a_n_encrypted = f_a_n_encrypted__from_ascistring(n_e__bob, n_n__bob, '{')
+print(a_n_encrypted)
+
+s = f_s_decrypted__from_a_n(n_d__bob, n_n__bob, a_n_encrypted)
+print(s)
 print("usage:")
 print("2^4234")
 print("f(2,4234)")
