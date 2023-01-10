@@ -10,7 +10,6 @@ n_index__q = 2
 n_index__r = 3
 n_index__x = 4
 n_index__y = 5
-a_a_n__table = []
 a_a_s_column_name = ['a', 'b', 'q', 'r', 'x', 'y']
 def f_s_pdl(
     var,
@@ -73,6 +72,7 @@ def f_a__solve_diophantic_equation(
     n_b, 
     n_3
 ):
+    a_a_n__table = []
     n_bigger = max(n_a, n_b)
     n_smaller = min(n_a, n_b)
     b_swap_xy = False
@@ -163,7 +163,7 @@ def f_n_en_or_de_crypted(
     n_msg,
     n_potenz, 
     n_mod
-):
+):  
     return (n_msg**n_potenz) % n_mod
 
 def f_s__from_a_n(a_n):
@@ -229,7 +229,7 @@ def f_n__calculate_public_key_e(
         n_factor+=1
     print("kleinste positive ladung")
     print("e = "+str(n_y)+" + "+str(n_factor)+"*"+str(n_phi_of_n))
-    n_e = n_y + n_phi_of_n
+    n_e = n_y + n_factor * n_phi_of_n
 
     print("e = "+str(n_e))
     return n_e
@@ -342,6 +342,7 @@ if len(sys.argv) > 2:
     #f(int(n_1), int(n_2))
     f()
 
+# example
 # f_n__calculate_public_key_e(35, 19, 23)
 # f()
 n_e__alice = 215 
@@ -358,5 +359,144 @@ print(a_n_encrypted)
 s = f_s_decrypted__from_a_n(n_d__bob, n_n__bob, a_n_encrypted)
 print(s)
 print("usage:")
-print("2^4234")
-print("f(2,4234)")
+print("---")
+print("fe(...)")
+print("calculate public key 'e', by using:")
+def fe(
+    n_d, 
+    n_prime__p, 
+    n_prime__q
+):
+    n_e = f_n__calculate_public_key_e(
+        n_d, 
+        n_prime__p, 
+        n_prime__q
+    )
+    print("n_e = "+str(n_e))
+
+print("fe(n_d, n_prime__p, n_prime__q)")
+print("n_d = the secret key 'd' (given in the math task)")
+print("n_prime__p = a prime number (given in the math task)")
+print("n_prime__q = a prime number (given in the math task)")
+print("so for example: fe(35, 19, 23)")
+
+print("---")
+print("fmen(n_e, n_n, n_msg): fmen = function message encrypted number")
+print("fmdn(n_d, n_n, n_msg): fmdn = function message decrypted number")
+print("n_e = given in the task, n_n = given in the task, n_msg given in the task, a number which represents the message")
+print("fmen(15, 391, 65)")
+def fmen(
+    n_e,
+    n_n,
+    n_msg
+):
+    print("encryption is being done with:")
+    print("n_msg_encrypted = [(n_msg ** n_n) mod n_e]")
+    n_msg_encrypted = f_n_en_or_de_crypted(n_msg, n_e, n_n)
+    print("n_msg_encrypted = "+str(n_msg_encrypted))
+    return n_msg_encrypted
+def fmdn(
+    n_d,
+    n_n,
+    n_msg
+):
+    print("decryption is being done with:")
+    print("n_msg_decrypted = [(n_msg ** n_n) mod n_d]")
+    n_msg_decrypted = f_n_en_or_de_crypted(n_msg, n_e, n_n)
+    print("n_msg_decrypted = "+str(n_msg_decrypted))
+    return n_msg_decrypted
+
+print("---")
+print("fmes(n_e, n_n, n_msg): fmes = function message encrypted string")
+print("fmds(n_e, n_n, n_msg): fmds = function message decrypted string")
+print("n_e = given in the task, n_n = given in the task, s_msg a character/string of length 1")
+print('fmes(15, 391, "a")')
+def fmes(
+    n_e,
+    n_n,
+    s_msg
+):
+    n_msg = ord(s_mgs)
+    print("s_mgs ("+str(s_mgs)+") as a number equals to ("+str(n_msg)+")")
+    return fmen(n_msg, n_e, n_n)
+
+def fmds(
+    n_d,
+    n_n,
+    s_msg
+):
+    n_msg = ord(s_mgs)
+    print("s_mgs ("+str(s_mgs)+") as a number equals to ("+str(n_msg)+")")
+    return fmdn(n_msg, n_d, n_n)
+
+print("---")
+print("fsrsah(): f string rsa help")
+
+def fsrsah():
+    print("---") 
+    print("step 1)") 
+    print("select 2 prime numbers (p and q)")
+    p = 5
+    q = 7 
+    print("p = "+str(p))
+    print("q = "+str(q))
+
+    print("---") 
+    print("step 2)")
+    print("caluclate, n = p*q")
+    n = p*q
+    print("n = "+str(p)+"*"+str(q)+" = " + str(n))
+    print("calculate phi(n), which is (p-1)*(q-1)")
+    phi_of_n = (p-1)*(q-1)
+    print("phi_of_n = ("+str(p)+"-1)*("+str(q)+"-1) = "+str(phi_of_n))
+        
+    print("---") 
+    print("step 3)")
+    print("select a number 'e' which satisfies:")
+    print(" e < n")
+    print("and")
+    print(" e hat keinen gemeinsamen teiler mit phi(n)")
+    print("zb. e = 11")
+    e = 11
+    
+    print("---") 
+    print("step 4)")
+    print("select 'd' which satisfies:")
+    print(" d != e ")
+    print("and")
+    print(" d*e = 1 mod (p-1)*(q-1)")
+    print("and")
+    print(" d hat keinen gemeinsamen teiler mit phi(n)")
+    d = 59
+    print("---") 
+    print("(private information), keep secret!:")
+    print("p("+str(p)+"), q("+str(q)+"), d("+str(d)+")")
+    print("(public information), the partner needs this to encrypt and send you a message")
+    print("e("+str(e)+")")
+
+    print("---") 
+    print("---")
+    print("en-crypt a number)")
+    m = 4
+    print("m = "+str(m))
+    print("get the public information 'n' and 'e' from the receipient")
+    print("n = 35, e = 11")
+    print("m_encrypted = m**e mod n")
+    print("m_encrypted = "+str(m)+"**"+str(e)+" mod "+str(n)+"")
+    m_encrypted = m**e % n
+    print("m_encrypted = "+str(m_encrypted))
+
+
+    print("---") 
+    print("---")
+    print("de-crypt a number)")
+    print("m_encrypted = "+str(m_encrypted))
+    print("the private information is:")
+    print("d = "+str(d))
+
+    print("m_decrypted = m_encrypted**d mod n")
+    print("m_decrypted = "+str(m_encrypted)+"**"+str(d)+" mod "+str(n)+"")
+    m_decrypted = m_encrypted**d % n
+    print("m_decrypted ="+str(m_decrypted))
+
+fsrsah()
