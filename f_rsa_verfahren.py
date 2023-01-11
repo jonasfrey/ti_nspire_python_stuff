@@ -499,4 +499,41 @@ def fsrsah():
     m_decrypted = m_encrypted**d % n
     print("m_decrypted ="+str(m_decrypted))
 
-fsrsah()
+# fsrsah()
+
+
+print("---")
+print("fcrsa(n_n): f crack rsa")
+print("try to crack the rsa by giving only the public 'n'")
+
+def fcrsa(n_n):
+    n_sqrt = math.sqrt(n_n)
+    n_sqrt_ceil = math.ceil(n_sqrt)
+    print("k = ceil(sqrt("+str(n_n)+")) = ceil("+str(n_sqrt)+") = "+str(n_sqrt_ceil)+"")
+    n_k = n_sqrt_ceil
+    print("sqrt((k+x)**2 - n) == integer number?")
+    n_x = -1
+    n_sqrt_n_kpn_x_p2m_n_n = 1.1
+    while(n_sqrt_n_kpn_x_p2m_n_n.is_integer() == False):
+        n_x += 1
+        print("x = "+str(n_x))
+        n_kpn_x = n_k + n_x
+        n_kpn_x_p2 = n_kpn_x**2
+        n_kpn_x_p2m_n_n = n_kpn_x_p2 - n_n
+        n_sqrt_n_kpn_x_p2m_n_n = math.sqrt(n_kpn_x_p2m_n_n)
+        print("sqrt((k+x)**2 - n) = sqrt(("+str(n_k)+"+"+str(n_x)+")**2 - "+str(n_n)+")")
+        print("sqrt((k+x)**2 - n) = sqrt("+str(n_kpn_x)+" - "+str(n_n)+")")
+        print("sqrt((k+x)**2 - n) = sqrt("+str(n_kpn_x_p2m_n_n)+")")
+        print("sqrt((k+x)**2 - n) = "+str(n_sqrt_n_kpn_x_p2m_n_n))
+
+    print("("+str(n_k+n_x)+"**2-"+str(n_sqrt_n_kpn_x_p2m_n_n)+"**2)")
+    print("binomische formel:")
+    print("("+str(n_k+n_x)+"-"+str(n_sqrt_n_kpn_x_p2m_n_n)+")*("+str(n_k+n_x)+"+"+str(n_sqrt_n_kpn_x_p2m_n_n)+")")
+    n_p = n_k+n_x-n_sqrt_n_kpn_x_p2m_n_n
+    n_q = n_k+n_x+n_sqrt_n_kpn_x_p2m_n_n
+    print(str(n_k+n_x-n_sqrt_n_kpn_x_p2m_n_n)+"*"+str(n_k+n_x+n_sqrt_n_kpn_x_p2m_n_n))
+    print("secret information 'p' and 'q' has been found")
+    print("p = ("+str(n_k)+"+"+str(n_x)+"-"+str(n_sqrt_n_kpn_x_p2m_n_n)+") = "+str(n_p))
+    print("q = ("+str(n_k)+"+"+str(n_x)+"+"+str(n_sqrt_n_kpn_x_p2m_n_n)+") = "+str(n_q))
+
+# fcrsa(6089*93889)
